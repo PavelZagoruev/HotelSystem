@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>tags</taglib-uri>
+            <taglib-location>/WEB-INF/tld/translate.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+
+    <filter>
+        <filter-name>PageRedirectFilter</filter-name>
+        <filter-class>by.gstu.hotelsystem.filter.PageRedirectFilter</filter-class>
+        <init-param>
+            <param-name>INDEX_PATH</param-name>
+            <param-value>/index.jsp</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>PageRedirectFilter</filter-name>
+        <url-pattern>/jsp/*</url-pattern>
+    </filter-mapping>
+</web-app>
