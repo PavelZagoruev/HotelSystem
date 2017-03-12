@@ -19,7 +19,7 @@
 <div class="page-header">
     <h2 style="text-align: center;"><t:translate key="header.hotelsystem"/></h2>
 </div>
-<div class="container" >
+<div class="container">
     <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -29,7 +29,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                            <form name="loginForm" method="post" action="${pageContext.servletContext.contextPath}/controller">
+                            <form name="loginForm" method="post"
+                                  action="${pageContext.servletContext.contextPath}/controller">
                                 <input type="hidden" name="command" value="login"/>
 
                                 <div class="input-group">

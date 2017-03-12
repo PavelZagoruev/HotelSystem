@@ -32,7 +32,7 @@ public class MySQLAccountDAO implements AccountDAO {
     /**
      * Columns name
      */
-    private static final String ACCOUNT_ID = "accountId";
+    private static final String ACCOUNT_ID = "accountID";
     private static final String ACCOUNT_LOGIN = "accountLogin";
     private static final String ACCOUNT_ROLE = "accountRole";
     private static final String PASSWORD = "accountPassword";
@@ -211,7 +211,7 @@ public class MySQLAccountDAO implements AccountDAO {
             st = connection.prepareStatement(SQLUtility.getQuery(SQL_INSERT_ACCOUNT), Statement.RETURN_GENERATED_KEYS);
             st.setString(1, account.getLogin());
             st.setString(2, account.getPassword());
-            st.setString(3, account.getIsAdmin());
+            st.setString(3, account.getAdministrator());
             int result = st.executeUpdate();
             rs = st.getGeneratedKeys();
             while (rs.next()) {
@@ -222,7 +222,7 @@ public class MySQLAccountDAO implements AccountDAO {
                 return true;
         } catch (SQLException e) {
             logger.error("Error while creating account " + account);
-           // logger.error(e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             if (st != null)
                 CloseUtility.close(st);
@@ -243,7 +243,7 @@ public class MySQLAccountDAO implements AccountDAO {
             st = connection.prepareStatement(SQLUtility.getQuery(SQL_UPDATE_ACCOUNT));
             st.setString(1, account.getLogin());
             st.setString(2, account.getPassword());
-            st.setString(3, account.getIsAdmin());
+            st.setString(3, account.getAdministrator());
             st.setInt(5, account.getId());
             st.executeUpdate();
             return account;
@@ -269,6 +269,7 @@ public class MySQLAccountDAO implements AccountDAO {
         try {
             connection = getConnection();
             st = connection.prepareStatement(SQLUtility.getQuery(SQL_SELECT_CLIENTS_ACCOUNTS));
+            st.setString(1,"CLIENT");
             rs = st.executeQuery();
             while (rs.next()) {
                 acc = new Account();

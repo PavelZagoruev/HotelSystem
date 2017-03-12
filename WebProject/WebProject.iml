@@ -14,6 +14,16 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="web" name="Web2">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/libs/taglibs-standard-1.2.5-source-release/taglibs-standard-1.2.5/standard-test/src/main/webapp/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/libs/taglibs-standard-1.2.5-source-release/taglibs-standard-1.2.5/standard-test/src/main/webapp" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -30,5 +40,6 @@
     <orderEntry type="library" name="javax.servlet-3.0" level="project" />
     <orderEntry type="library" name="taglibs-standard-impl-1.2.5" level="project" />
     <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="library" name="mysql-connector-java-5.1" level="project" />
   </component>
 </module>

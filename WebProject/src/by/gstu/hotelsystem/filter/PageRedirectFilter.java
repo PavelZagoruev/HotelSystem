@@ -24,7 +24,7 @@ public class PageRedirectFilter implements Filter {
     private static final String PARAM_USER = "user";
     private static final String PARAM_CLIENT_TYPE = "clientType";
     private static final String PATH_MAIN_CLIENT_PAGE = "path.page.main.client";
-    private static final String PATH_MAIN_DISPATCHER_PAGE = "path.page.main.dispatcher";
+    private static final String PATH_MAIN_ADMINISTRATOR_PAGE = "path.page.main.administrator";
 
     public void destroy() {
     }
@@ -38,18 +38,14 @@ public class PageRedirectFilter implements Filter {
         String page = httpRequest.getRequestURI();
 
         if (clientType == null) {
-            clientType = ClientTypeEnum.GUEST;
+            clientType = ClientTypeEnum.CLIENT;
             session.setAttribute(PARAM_CLIENT_TYPE, clientType);
         }
         logger.trace(user + " with status " + clientType.name() + " try to visit page " + page);
 
-        if (clientType == ClientTypeEnum.GUEST) {
+        if (clientType == ClientTypeEnum.ADMINISTRATOR) {
             if (!isPermissible(page, httpRequest.getContextPath(), clientType)) {
-                httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
-            }
-        } else if (clientType == ClientTypeEnum.ADMINISTRATOR) {
-            if (!isPermissible(page, httpRequest.getContextPath(), clientType)) {
-                httpResponse.sendRedirect(httpRequest.getContextPath() + MappingUtility.getPath(PATH_MAIN_DISPATCHER_PAGE));
+                httpResponse.sendRedirect(httpRequest.getContextPath() + MappingUtility.getPath(PATH_MAIN_ADMINISTRATOR_PAGE));
             }
         } else if (clientType == ClientTypeEnum.CLIENT) {
             if (!isPermissible(page, httpRequest.getContextPath(), clientType)) {

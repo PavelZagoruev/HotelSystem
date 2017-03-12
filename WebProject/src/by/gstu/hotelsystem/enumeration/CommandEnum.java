@@ -27,45 +27,55 @@ public enum CommandEnum {
 //            this.command = new ShowTripsCommand();
 //        }
 //    },
-//    CREATE_TRIP {
-//        {
-//            this.command = new CreateTripCommand();
-//        }
-//    },
-//    LOGOUT {
-//        {
-//            this.command = new LogoutCommand();
-//        }
-//    },
-//    SHOW_DRIVERS {
-//        {
-//            this.command = new ShowDriversCommand();
-//        }
-//    },
-//    UPDATE_CAR {
-//        {
-//            this.command = new UpdateCarCommand();
-//        }
-//    },
-//    COMPLETE_TRIP {
-//        {
-//            this.command = new CompleteTripCommand();
-//        }
-//    },
+   /* CREATE_TRIP {
+        {
+            this.command = new CreateAcommodationCommand();
+       }
+    },*/
+    LOGOUT {
+       {
+            this.command = new LogoutCommand();
+        }
+   },
+    SHOW_CLIENTS {
+        {
+            this.command = new ShowClientsCommand();
+        }
+    },
+    SHOW_HOTELS{
+        {
+            this.command = new ShowHotelsCommand();
+        }
+    },
 
   CHANGE_LANG {
        {
           this.command = new ChangeLanguageCommand();
       }
    },
-//    SHOW_CAR_INFO {
-//        {
-//            this.command = new ShowCarInfoCommand();
-//        }
-//    },
-    SHOW_ORDERS {
+    SHOW_APARTMENT_INFO {
+       {
+            this.command = new ShowApartmentInfoCommand();
+        }
+    },
+    SHOW_APARTMENT{
+    {
+        this.command = new ShowAppartment();
+    }
+},
+    SHOW_ADMINISTRATOR_ORDERS {
         {
-            this.command = new ShowOrdersCommand();
+            this.command = new ShowAdministratorOrdersCommand();
+        }
+    },
+    SHOW_CLIENT_ORDERS{
+        {
+            this.command = new ShowClientOrdersCommand();
+        }
+    },
+    CREATE_ORDER {
+        {
+            this.command = new CreateOrderCommand();
         }
     };
 

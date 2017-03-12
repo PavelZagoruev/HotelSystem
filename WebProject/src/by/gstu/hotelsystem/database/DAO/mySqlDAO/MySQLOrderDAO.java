@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -39,6 +40,7 @@ public class MySQLOrderDAO implements OrderDAO{
     private static final String ORDER_EXIT = "orderExit";
     private static final String ACCOUNT_ID = "accountID";
     private static final String APARTMENT_ID = "apartmentID";
+    private static final String ORDER_STATUS = "orderStatus";
 
     private MySQLAccountDAO mySQLAccountDAO = new MySQLAccountDAO();
     private MySQLApartmentDAO mySQLApartmentDAO=new MySQLApartmentDAO();
@@ -72,8 +74,8 @@ public class MySQLOrderDAO implements OrderDAO{
             while (rs.next()) {
                 order = new Order();
                 order.setId(rs.getInt(ORDER_ID));
-                order.setOrderEntry(ZonedDateTime.from(rs.getDate(ORDER_ENTRY).toInstant()));
-                order.setOrderExit(ZonedDateTime.from(rs.getDate(ORDER_EXIT).toInstant()));
+                order.setOrderEntry(LocalDate.from(rs.getDate(ORDER_ENTRY).toLocalDate()));
+                order.setOrderExit(LocalDate.from(rs.getDate(ORDER_EXIT).toLocalDate()));
                 int accountId = Integer.parseInt(rs.getString(ACCOUNT_ID));
                 account = mySQLAccountDAO.findAccountById(accountId);
                 order.setOrderAccount(account);
@@ -81,6 +83,10 @@ public class MySQLOrderDAO implements OrderDAO{
                 int apartmentId = Integer.parseInt(rs.getString(APARTMENT_ID));
                 apartment = mySQLApartmentDAO.findApartmentById(apartmentId);
                 order.setOrderApartment(apartment);
+                order.setOrderApartmentClass(apartment.getClassOfApartment());
+                order.setOrderApartmentBed(apartment.getNumberOfBed());
+
+                order.setStatusEnum(rs.getString(ORDER_STATUS));
                 orders.add(order);
             }
         } catch (IllegalArgumentException e) {
@@ -132,10 +138,11 @@ public class MySQLOrderDAO implements OrderDAO{
         try {
             connection = getConnection();
             st = connection.prepareStatement(SQLUtility.getQuery(SQL_INSERT_ORDER), Statement.RETURN_GENERATED_KEYS);
-            st.setDate(1, Date.valueOf(order.getOrderEntry().toLocalDate()));
-            st.setDate(2,Date.valueOf(order.getOrderExit().toLocalDate()));
+            st.setDate(1, Date.valueOf(order.getOrderEntry()));
+            st.setDate(2,Date.valueOf(order.getOrderExit()));
             st.setInt(3, order.getAccountId());
             st.setInt(4, order.getApartmentId());
+            st.setString(5, (order.getStatusEnum().toString()));
             int result = st.executeUpdate();
             rs = st.getGeneratedKeys();
             while (rs.next()) {
@@ -164,8 +171,8 @@ public class MySQLOrderDAO implements OrderDAO{
         try {
             connection = getConnection();
             st = connection.prepareStatement(SQLUtility.getQuery(SQL_UPDATE_ORDER));
-            st.setDate(1, Date.valueOf(order.getOrderEntry().toLocalDate()));
-            st.setDate(2,Date.valueOf(order.getOrderExit().toLocalDate()));
+            st.setDate(1, Date.valueOf(order.getOrderEntry()));
+            st.setDate(2,Date.valueOf(order.getOrderExit()));
             st.setInt(3, order.getAccountId());
             st.setInt(4, order.getApartmentId());
             st.setInt(5, order.getId());
@@ -197,8 +204,8 @@ public class MySQLOrderDAO implements OrderDAO{
             while (rs.next()) {
                 order = new Order();
                 order.setId(rs.getInt(ORDER_ID));
-                order.setOrderEntry(ZonedDateTime.from(rs.getDate(ORDER_ENTRY).toInstant()));
-                order.setOrderExit(ZonedDateTime.from(rs.getDate(ORDER_EXIT).toInstant()));
+                order.setOrderEntry(LocalDate.from(rs.getDate(ORDER_ENTRY).toInstant()));
+                order.setOrderExit(LocalDate.from(rs.getDate(ORDER_EXIT).toInstant()));
                 account= mySQLAccountDAO.findAccountById(rs.getInt(ACCOUNT_ID));
                 order.setOrderAccount(account);
                 apartment=mySQLApartmentDAO.findApartmentById(rs.getInt(APARTMENT_ID));

@@ -11,6 +11,10 @@ import java.util.List;
 public interface ApartmentDAO {
     Connection getConnection() throws SQLException;
 
+    List<Apartment> findApartmentByHotelName(String hotelName);
+
+    List<Apartment> findApartmentByHotelId(int hotelId);
+
     List<Apartment> findAll();
 
     Apartment findApartmentById(int id);

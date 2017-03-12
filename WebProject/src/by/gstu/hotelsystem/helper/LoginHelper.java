@@ -4,6 +4,8 @@ import by.gstu.hotelsystem.database.DAO.AccountDAO;
 import by.gstu.hotelsystem.database.DAO.factory.DAOFactory;
 import by.gstu.hotelsystem.models.Account;
 
+import java.util.function.Predicate;
+
 /**
  * Created by Pavel on 16.01.2017.
  */
@@ -30,12 +32,9 @@ public class LoginHelper {
     public boolean checkAccount(String login, String password) {
         DAOFactory mySql = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
         AccountDAO accountDAO = mySql.getAccountDAO();
-        for (Account item : accountDAO.findAll()) {
-            if (item.getLogin().equals(login) && item.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
+        return accountDAO.findAll()
+                .stream()
+                .anyMatch(isAccountSuitable(login, password));
     }
 
     /**
@@ -47,11 +46,16 @@ public class LoginHelper {
     public boolean checkLogin(String login) {
         DAOFactory mySql = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
         AccountDAO accountDAO = mySql.getAccountDAO();
-        for (Account item : accountDAO.findAll()) {
-            if (item.getLogin().equals(login)) {
-                return true;
-            }
-        }
-        return false;
+        return accountDAO.findAll()
+                .stream()
+                .anyMatch(isAccountSuitable(login));
+    }
+
+    private static Predicate<Account> isAccountSuitable(String login, String password) {
+        return acc -> acc.getLogin().equals(login) && acc.getPassword().equals(password);
+    }
+
+    private static Predicate<Account> isAccountSuitable(String login) {
+        return acc -> acc.getLogin().equals(login);
     }
 }

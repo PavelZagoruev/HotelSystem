@@ -7,16 +7,13 @@ public class Account extends Regulation{
     private String password;
     private String login;
     private boolean  isAdministrator;
-    private String isAdmin;
     public Account(){
     }
-    public Account(int id,String password,String log,String rol){
-        super(id);
+    public Account(String password,String log,String rol){
         this.password=password;
         login=log;
         if(rol.equalsIgnoreCase("Administrator"))
         {
-            isAdmin=rol;
             setIsAdministrator(true);
         }
         else
@@ -42,16 +39,21 @@ public class Account extends Regulation{
     public boolean getIsAdministrator() {
         return isAdministrator;
     }
-    public String getIsAdmin(){return isAdmin;}
+
+    public String getAdministrator()
+    {
+        if(isAdministrator)
+            return "Administrator";
+        else return "Client";
+    }
     public void setIsAdministrator(boolean role) {
         isAdministrator = role;
     }
 
     public void setAdministrator(String role){if(role.equalsIgnoreCase("ADMINISTRATOR")) {
         setIsAdministrator(true);
-        isAdmin=role;
     }
             else setIsAdministrator(false);}
 
-    public int getId(){return this.getId();}
+
 }

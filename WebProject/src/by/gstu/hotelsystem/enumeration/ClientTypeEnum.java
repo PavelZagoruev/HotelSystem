@@ -6,5 +6,5 @@ package by.gstu.hotelsystem.enumeration;
  */
 public enum ClientTypeEnum {
 
-    GUEST, CLIENT, ADMINISTRATOR
+    CLIENT, ADMINISTRATOR
 }

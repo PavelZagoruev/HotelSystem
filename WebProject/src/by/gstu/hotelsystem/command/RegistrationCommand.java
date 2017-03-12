@@ -88,7 +88,7 @@ public class RegistrationCommand implements Command {
                 request.setAttribute(PARAM_NAME_SUCCESS, getMessage(SUCCESS_REGISTRATION));
             } catch (NumberFormatException e) {
                 logger.error("User isn't registered.");
-                //logger.error(e.getMessage());
+                logger.error(e.getMessage());
 
             }
         }

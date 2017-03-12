@@ -12,6 +12,15 @@ public class Apartment extends Regulation {
     private String hotelName;
     private Hotel hotelOfApartment;
 
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    private int hotelId;
     public Apartment(){
     }
     public Apartment(int id,int numBed,String classApart,Hotel hotName){
@@ -20,6 +29,7 @@ public class Apartment extends Regulation {
         classOfApartment=classApart;
         hotelName=hotName.getName();
         hotelOfApartment=hotName;
+        hotelId=hotName.getId();
 
     }
     public int getNumberOfBed() {

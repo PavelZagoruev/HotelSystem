@@ -1,9 +1,7 @@
 package by.gstu.hotelsystem.database.DAO.mySqlDAO;
 
-import by.gstu.hotelsystem.database.DAO.AccountDAO;
 import by.gstu.hotelsystem.database.ConnectorDB;
 import by.gstu.hotelsystem.database.DAO.ApartmentDAO;
-import by.gstu.hotelsystem.models.Account;
 import by.gstu.hotelsystem.models.Apartment;
 import by.gstu.hotelsystem.util.CloseUtility;
 import by.gstu.hotelsystem.util.SQLUtility;
@@ -29,14 +27,15 @@ public class MySQLApartmentDAO implements ApartmentDAO{
     private static final String SQL_DELETE_APARTMENT_BY_ID = "DELETE_APARTMENT_BY_ID";
     private static final String SQL_INSERT_APARTMENT = "INSERT_APARTMENT";
     private static final String SQL_UPDATE_APARTMENT = "UPDATE_APARTMENT";
-
+    private static final String SQL_SELECT_APARTMENTS_BY_HOTELNAME = "SELECT_APARTMENTS_BY_HOTELNAME";
+    private static final String SQL_SELECT_APARTMENTS_BY_HOTELID = "SELECT_APARTMENTS_BY_HOTELID";
     /**
      * Columns name
      */
     private static final String APARTMENT_ID = "apartmentID";
     private static final String APARTMENT_BED = "apartmentBed";
     private static final String APARTMENT_CLASS = "apartmentClass";
-    private static final String HOTEL_NAME = "hotelName";
+    private static final String HOTEL_ID = "hotelId";
 
 public Connection getConnection() throws SQLException
 {
@@ -64,7 +63,7 @@ public List<Apartment> findAll()
             apart.setId(rs.getInt(APARTMENT_ID));
             apart.setClassOfApartment(rs.getString(APARTMENT_BED));
             apart.setNumberOfBed(rs.getInt(APARTMENT_BED));
-            apart.setHotelName(rs.getString(HOTEL_NAME));
+            apart.setHotelId(rs.getInt(HOTEL_ID));
 
             apartments.add(apart);
     }
@@ -82,6 +81,80 @@ public List<Apartment> findAll()
     return apartments;
 
 }
+
+public List<Apartment> findApartmentByHotelName(String hotName)
+{
+    List<Apartment> apartments = new ArrayList<>();
+    Apartment apart;
+    PreparedStatement st = null;
+    ResultSet rs = null;
+    Connection connection = null;
+    try
+    {
+        connection=getConnection();
+        st=connection.prepareStatement(SQLUtility.getQuery(SQL_SELECT_APARTMENTS_BY_HOTELNAME),Statement.RETURN_GENERATED_KEYS);
+        st.setString(1,hotName);
+        rs = st.executeQuery();
+        while (rs.next())
+        {
+            apart = new Apartment();
+            apart.setId(rs.getInt(APARTMENT_ID));
+            apart.setClassOfApartment(rs.getString(APARTMENT_BED));
+            apart.setNumberOfBed(rs.getInt(APARTMENT_BED));
+            apart.setHotelId(rs.getInt(HOTEL_ID));
+
+            apartments.add(apart);
+        }
+    }catch (SQLException e) {
+        logger.error("Error while finding apartmets by hotel"+hotName);
+        logger.error(e.getMessage());
+    } finally {
+        if (st != null)
+            CloseUtility.close(st);
+        if (rs != null)
+            CloseUtility.close(rs);
+        if (connection != null)
+            CloseUtility.close(connection);
+    }
+    return apartments;
+}
+
+    public List<Apartment> findApartmentByHotelId(int hotelId)
+    {
+        List<Apartment> apartments = new ArrayList<>();
+        Apartment apart;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection connection = null;
+        try
+        {
+            connection=getConnection();
+            st=connection.prepareStatement(SQLUtility.getQuery(SQL_SELECT_APARTMENTS_BY_HOTELID),Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1,hotelId);
+            rs = st.executeQuery();
+            while (rs.next())
+            {
+                apart = new Apartment();
+                apart.setId(rs.getInt(APARTMENT_ID));
+                apart.setClassOfApartment(rs.getString(APARTMENT_BED));
+                apart.setNumberOfBed(rs.getInt(APARTMENT_BED));
+                apart.setHotelId(rs.getInt(HOTEL_ID));
+
+                apartments.add(apart);
+            }
+        }catch (SQLException e) {
+            logger.error("Error while finding apartmets by hotel"+hotelId);
+            logger.error(e.getMessage());
+        } finally {
+            if (st != null)
+                CloseUtility.close(st);
+            if (rs != null)
+                CloseUtility.close(rs);
+            if (connection != null)
+                CloseUtility.close(connection);
+        }
+        return apartments;
+    }
 public Apartment findApartmentById(int id){
     PreparedStatement st = null;
     Apartment apart = null;
@@ -97,7 +170,7 @@ public Apartment findApartmentById(int id){
             apart.setId(rs.getInt(APARTMENT_ID));
             apart.setClassOfApartment(rs.getString(APARTMENT_CLASS));
             apart.setNumberOfBed(rs.getInt(APARTMENT_BED));
-            apart.setHotelName(rs.getString(HOTEL_NAME));
+            apart.setHotelId(rs.getInt(HOTEL_ID));
         }
         if (apart == null) {
             logger.warn("Can't find record with id [" + id + "]!");
@@ -130,7 +203,7 @@ public Apartment findApartmentById(int id){
                 apart.setId(rs.getInt(APARTMENT_ID));
                 apart.setClassOfApartment(rs.getString(APARTMENT_CLASS));
                 apart.setNumberOfBed(rs.getInt(APARTMENT_BED));
-                apart.setHotelName(rs.getString(HOTEL_NAME));
+                apart.setHotelId(rs.getInt(HOTEL_ID));
             }
             if (apart == null) {
                 logger.warn("Can't find record with login [" + apartmentClass + "]!");
@@ -237,7 +310,7 @@ public Apartment findApartmentById(int id){
             st = connection.prepareStatement(SQLUtility.getQuery(SQL_UPDATE_APARTMENT));
             st.setInt(1, apartment.getNumberOfBed());
             st.setString(2, apartment.getClassOfApartment());
-            st.setString(3, apartment.getHotelName());
+            st.setInt(3, apartment.getHotelId());
             st.setInt(5, apartment.getId());
             st.executeUpdate();
             return apartment;

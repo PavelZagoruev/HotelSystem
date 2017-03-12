@@ -56,14 +56,14 @@ public class ShowOrdersCommand implements Command {
 
         if (orders.size() > 0) {
             for (Order item : orders) {
-                switch (item.getStatus()) {
-                    case PERFORMED:
+                switch (item.getStatusEnum()) {
+                    case CONFIRMED:
                         performedOrders.add(item);
                         break;
                     case WAITING:
                         waitingOrders.add(item);
                         break;
-                    case DONE:
+                    case CLOSED:
                         doneOrders.add(item);
                         break;
                 }

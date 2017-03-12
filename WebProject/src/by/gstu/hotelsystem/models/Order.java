@@ -1,7 +1,9 @@
 package by.gstu.hotelsystem.models;
 
-import by.gstu.hotelsystem.enumeration.TripStatusEnum;
+import by.gstu.hotelsystem.enumeration.ClientTypeEnum;
+import by.gstu.hotelsystem.enumeration.OrderStatusEnum;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 /**
@@ -9,39 +11,50 @@ import java.time.ZonedDateTime;
  */
 public class Order extends Regulation{
 
-    private ZonedDateTime orderEntry;
-    private ZonedDateTime orderExit;
+    private LocalDate orderEntry;
+    private LocalDate orderExit;
     private Account orderAccount;
     private Apartment orderApartment;
-    private TripStatusEnum statusEnum;
+    private OrderStatusEnum statusEnum;
+    private String orderApartmentClass;
+    private int orderApartmentBed;
+    private String nameOrderAccount;
 
     public Order(){
     }
-    public Order(int id,ZonedDateTime start,ZonedDateTime end,Account ac,Apartment apart,TripStatusEnum tripStatusEnum){
-        super(id);
+    public Order(LocalDate start,LocalDate end,Account ac,Apartment apart,OrderStatusEnum orderStatusEnum){
         orderExit=end;
         orderEntry=start;
         orderAccount=ac;
         orderApartment=apart;
-        statusEnum=tripStatusEnum;
+        orderApartmentClass=orderApartment.getClassOfApartment();
+        orderApartmentBed=orderApartment.getNumberOfBed();
+        statusEnum= orderStatusEnum;
+        nameOrderAccount=orderAccount.getLogin();
     }
-    public TripStatusEnum getStatus()
-    { return statusEnum;}
-    public void setStatus(TripStatusEnum tripStatusEnum)
-    {statusEnum=tripStatusEnum;}
-    public ZonedDateTime getOrderEntry() {
+    public String getNameOrderAccount()
+    {return nameOrderAccount;}
+    public void setNameOrderAccount(String name)
+    {nameOrderAccount=name;}
+    public void setStatusEnum(String orderStatusEnum)
+    {this.statusEnum = statusEnum.valueOf(orderStatusEnum);}
+
+    public OrderStatusEnum getStatusEnum()
+    {return statusEnum;}
+
+    public LocalDate getOrderEntry() {
         return orderEntry;
     }
 
-    public void setOrderEntry(ZonedDateTime startDate) {
+    public void setOrderEntry(LocalDate startDate) {
         this.orderEntry = startDate;
     }
 
-    public ZonedDateTime getOrderExit() {
+    public LocalDate getOrderExit() {
         return orderExit;
     }
 
-    public void setOrderExit(ZonedDateTime endDate) {
+    public void setOrderExit(LocalDate endDate) {
         this.orderExit = endDate;
     }
 
@@ -60,4 +73,17 @@ public class Order extends Regulation{
     public void setOrderApartment(Apartment orderApartment) {
         this.orderApartment = orderApartment;
     }
+    public String getOrderApartmentClass ()
+    {return orderApartmentClass;}
+    public  void setOrderApartmentClass(String orderApartmentClass)
+    {
+        this.orderApartmentClass=orderApartmentClass;
+    }
+    public int getOrderApartmentBed()
+    {return orderApartmentBed;}
+    public  void setOrderApartmentBed(int orderApartmentBed)
+    {
+        this.orderApartmentBed=orderApartmentBed;
+    }
+
 }

@@ -13,62 +13,58 @@ public enum PermissibleLinksEnum {
             return MappingUtility.getPath(PATH_REGISTRATION_PAGE);
         }
     },
-    MAIN_DRIVER_PAGE {
+    LOGIN_PAGE {
+        public String getPath(ClientTypeEnum clientTypeEnum) { return MappingUtility.getPath(PATH_LOGIN_PAGE);}
+    },
+    MAIN_CLIENT_PAGE {
         public String getPath(ClientTypeEnum clientType) {
             if(clientType == ClientTypeEnum.CLIENT) {
-                return MappingUtility.getPath(PATH_MAIN_DRIVER_PAGE);
+                return MappingUtility.getPath(PATH_MAIN_CLIENT_PAGE);
             }
             return null;
         }
     },
-    MAIN_CAR_PAGE {
+    MAIN_APARTMENT_PAGE {
         public String getPath(ClientTypeEnum clientType) {
             if(clientType == ClientTypeEnum.CLIENT) {
-                return MappingUtility.getPath(PATH_MAIN_CAR_PAGE);
+                return MappingUtility.getPath(PATH_MAIN_APARTMENT_PAGE);
             }
             return null;
         }
     },
-    COMPLETE_TRIP_PAGE {
-        public String getPath(ClientTypeEnum clientType) {
-            if(clientType == ClientTypeEnum.CLIENT) {
-                return MappingUtility.getPath(PATH_COMPLETE_TRIP_PAGE);
-            }
-            return null;
-        }
-    },
-    MAIN_DISPATCHER_PAGE {
+    MAIN_ADMINISTRATOR_PAGE {
         public String getPath(ClientTypeEnum clientType) {
             if(clientType == ClientTypeEnum.ADMINISTRATOR) {
-                return MappingUtility.getPath(PATH_MAIN_DISPATCHER_PAGE);
+                return MappingUtility.getPath(PATH_MAIN_ADMINISTRATOR_PAGE);
             }
             return null;
         }
     },
-    ORDERS_PAGE {
+    CLIENT_ORDERS_PAGE {
         public String getPath(ClientTypeEnum clientType) {
-            if(clientType == ClientTypeEnum.ADMINISTRATOR) {
-                return MappingUtility.getPath(ORDERS_PAGE_PATH);
+            if (clientType == ClientTypeEnum.CLIENT) {
+                return MappingUtility.getPath(PATH_CLIENT_ORDERS);
             }
             return null;
         }
     },
-    CREATE_TRIP_PAGE {
+    ADMINISTRATOR_ORDERS_PAGE {
         public String getPath(ClientTypeEnum clientType) {
-            if(clientType == ClientTypeEnum.ADMINISTRATOR) {
-                return MappingUtility.getPath(PATH_CREATE_TRIP_PAGE);
+            if (clientType == ClientTypeEnum.ADMINISTRATOR) {
+                return MappingUtility.getPath(PATH_ADMINISTRATOR_ORDERS);
             }
             return null;
         }
     };
 
     private static final String PATH_REGISTRATION_PAGE = "path.page.registration";
-    private static final String PATH_MAIN_DRIVER_PAGE = "path.page.main.driver";
-    private static final String PATH_MAIN_DISPATCHER_PAGE = "path.page.main.dispatcher";
-    private static final String PATH_MAIN_CAR_PAGE = "path.page.car";
-    private static final String PATH_COMPLETE_TRIP_PAGE = "path.complete.trip";
-    private static final String ORDERS_PAGE_PATH = "path.page.orders";
-    private static final String PATH_CREATE_TRIP_PAGE = "path.page.trip.create";
+    private static final String PATH_LOGIN_PAGE ="path.page.login";
+    private static final String PATH_MAIN_CLIENT_PAGE = "path.page.main.client";
+    private static final String PATH_MAIN_ADMINISTRATOR_PAGE = "path.page.main.administrator";
+    private static final String PATH_MAIN_APARTMENT_PAGE = "path.page.main.apartment";
+
+    private static final String PATH_CLIENT_ORDERS = "path.page.client.orders";
+    private static final String PATH_ADMINISTRATOR_ORDERS = "path.page.administrator.orders";
 
     public abstract String getPath(ClientTypeEnum clientType);
 }
